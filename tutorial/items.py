@@ -16,4 +16,6 @@ class ProfessorItem(scrapy.Item):
 	area = scrapy.Field()
 	img = scrapy.Field()
 	url = scrapy.Field()
+	edu = scrapy.Field()
+	cont = scrapy.Field()
 	
