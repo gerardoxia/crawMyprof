@@ -9,17 +9,13 @@ class princeton(scrapy.Spider):
     ]
 
     def parse(self, response):
-        for sel in response.xpath(".//*[@id='block-system-main']/div/div[2]/div"):
+        for sel in response.css(".person"):
             item = ProfessorItem()
-            if(sel.xpath('./div[2]/h2/a/text()[1]')):
-                item['name'] = sel.xpath('./div[2]/h2/a/text()[1]').extract()[0].strip()
-            else: item['name'] = sel.xpath('./div[2]/h2/text()[1]').extract()[0].strip()
-            item['title'] = sel.xpath('./div[2]/div[1]/text()[1]').extract()[0].strip()
-            item['edu'] = sel.xpath('./div[2]/div[2]/text()[1]').extract()[0].strip()
-            item['email'] = sel.xpath('./div[2]/div[4]/span[1]/text()[2]').extract()[0]
-            #item['phone'] = sel.xpath('./div[2]/div[4]/span[2]/text()[1]').extract()[0]
-            #item['addr'] = sel.xpath('./div[2]/div[4]/span[3]/text()[1]').extract()[0]
-            #item['url'] = sel.css(".views-field-field-person-photo .field-content a::attr('href')").extract()[0]
-            item['img'] = sel.css(".person-photo img::attr('src')").extract()[0]
-            #item['area'] = ", ".join(sel.css('.views-field-term-node-tid .field-content > a::text').extract()).replace(u', and', u',')
+            if(sel.css(".person-name a::text")):
+                item['name']=sel.css(".person-name a::text").extract()[0].strip()
+                item['url']="https://www.cs.princeton.edu"+sel.css(".person-name a::attr('href')").extract()[0]
+                item['img']="https://www.cs.princeton.edu"+sel.css("img::attr('src')").extract()[0]
+                item['title']=sel.css(".person-title::text").extract()[0].strip()
+                item['email']=sel.css(".person-name a::attr('href')").re(r"profile/(.*)")[0]+"@cs.princeton.edu"
+                if(sel.css(".person-research-interests").re(r"Research Interests:")):item['area']=sel.css(".person-research-interests::text").extract()[1].strip()
             yield item

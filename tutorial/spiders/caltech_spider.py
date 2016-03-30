@@ -28,7 +28,7 @@ class caltech(scrapy.Spider):
             if(sel.css(".people-thumbnail-headshot a > img::attr('src')")):item['img'] = sel.css(".people-thumbnail-headshot a > img::attr('src')").extract()[0]
             if(sel.css(".people-short-listing-blurb p::text")):item['area'] = sel.css(".people-short-listing-blurb p::text").extract()[0].strip()
             else:item['area'] = sel.css(".people-short-listing-blurb::text").extract()[0].strip()'''
-            yield item
+            #yield item
     def parse_prof_homepage(self, response):
         item = response.meta['item']
         if(response.css(".txt").re(r"Email: (\w*)")):item['email'] = response.css(".txt").re(r"Email: (\w*)")[0]+"@caltech.edu"

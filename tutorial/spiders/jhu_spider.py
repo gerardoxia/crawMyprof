@@ -24,7 +24,6 @@ class jhu(scrapy.Spider):
     		request = scrapy.Request(url, callback=self.parse_prof_homepage)
     		request.meta['item'] = item
     		yield request
-    		yield item
     def parse_prof_homepage(self, response):
         item = response.meta['item']
         if(response.css(".primary img::attr('src')")):item['img']=response.css(".primary img::attr('src')").extract()[0]

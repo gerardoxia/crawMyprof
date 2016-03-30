@@ -23,7 +23,6 @@ class duke(scrapy.Spider):
         	request = scrapy.Request(url, callback=self.parse_prof_homepage)
         	request.meta['item'] = item
         	yield request
-        	yield item
     def parse_prof_homepage(self, response):
         item = response.meta['item']
         if(response.xpath(".//*[@id='Content']").re(r"Research</p>\n(.*)")):item['area']=response.xpath(".//*[@id='Content']").re(r"Research</p>\n(.*)")[0]

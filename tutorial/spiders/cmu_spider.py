@@ -2,7 +2,7 @@
 from tutorial.items import ProfessorItem
 from google import google, images
 
-class cmu(scrapy.Spider):
+class CMUSpider(scrapy.Spider):
     name = "cmu"
     allowed_domains = ["cs.cmu.edu"]
     start_urls = [
@@ -31,15 +31,6 @@ class cmu(scrapy.Spider):
             request = scrapy.Request(url, callback=self.parse_prof_homepage)
             request.meta['item'] = item
             yield request
-            #Search google for img
-            options = images.ImageOptions()
-            options.image_type = images.ImageType.FACE
-            results = google.search_images(item['name'] + u' cmu', options)
-            if results:
-                result = next(res for res in results if res.index == 1)
-                if result:
-                    item['img'] = result.link
-            yield item
 
     def parse_prof_homepage(self, response):
         item = response.meta['item']
@@ -47,5 +38,13 @@ class cmu(scrapy.Spider):
         if url:
             item['url'] = url
         item['area'] = ",".join(response.css('.field-name-field-research-interests a::text').extract())
-        return item'''
-
+        #Search google for img
+        options = images.ImageOptions()
+        options.image_type = images.ImageType.FACE
+        results = google.search_images(item['name'] + u' cmu', options)
+        if results:
+            result = next(res for res in results if res.index == 1)
+            if result:
+                item['img'] = result.link
+        return item
+'''

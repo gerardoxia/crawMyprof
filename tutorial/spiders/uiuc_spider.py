@@ -38,7 +38,7 @@ class uiuc(scrapy.Spider):
             request = scrapy.Request(url, callback=self.parse_prof_homepage)
             request.meta['item'] = item
             yield request
-            yield item
+            #yield item
         #self.driver.close()
         #self.driver2.close()
 

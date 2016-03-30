@@ -20,7 +20,6 @@ class harvard(scrapy.Spider):
             request = scrapy.Request(url, callback=self.parse_prof_homepage)
             request.meta['item'] = item
             yield request
-            yield item
     def parse_prof_homepage(self, response):
         item = response.meta['item']
         for sel2 in response.css(".view-display-id-block_2 .view-content .item-list"):

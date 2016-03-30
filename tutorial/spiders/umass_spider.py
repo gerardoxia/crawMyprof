@@ -21,7 +21,7 @@ class umass(scrapy.Spider):
         	request = scrapy.Request(url, callback=self.parse_prof_homepage)
         	request.meta['item'] = item
         	yield request
-    		yield item
+    		#yield item
     def parse_prof_homepage(self, response):
         item = response.meta['item']
         if(response.css(".content").re(r"Interests</div></h2><p>(.*?)</p>")):item['area']=response.css(".content").re(r"Interests</div></h2><p>(.*?)</p>")[0]
